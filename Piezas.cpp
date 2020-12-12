@@ -22,7 +22,16 @@
 **/
 Piezas::Piezas()
 {
-}
+  turn = Blank;
+  for(int i=0; i<3; i++){
+     std::vector<Piece> temp;
+    for(int j=0; j<4; j++){
+         temp.push_back(turn);
+    }
+    board.push_back(temp); 
+  }
+    turn = X; 
+}//Piezas 
 
 /**
  * Resets each board location to the Blank Piece value, with a board of the
@@ -30,6 +39,9 @@ Piezas::Piezas()
 **/
 void Piezas::reset()
 {
+    for(int i=0; i<3; i++)
+        for(int j=0; j<4; j++)
+            board[i][j] = Blank;
 }
 
 /**
@@ -42,8 +54,36 @@ void Piezas::reset()
 **/ 
 Piece Piezas::dropPiece(int column)
 {
-    return Blank;
-}
+    if (column>=4 || column <0){
+         if (turn == X){
+         turn =O;
+    }
+    else {
+         turn =X;
+    }
+        return Invalid; 
+    }
+    for (int i =3; i<0; i--){
+        if(board[i][column]==Blank) {
+            board[i][column] = turn; 
+            if (turn == X){
+                turn =O;
+            }
+            else {
+                turn =X;
+            }
+            return board[i][column];
+        }// if 
+    }// for 
+     if (turn == X){
+         turn =O;
+    }
+    else {
+         turn =X;
+    }
+    return Blank; 
+
+}// funtion 
 
 /**
  * Returns what piece is at the provided coordinates, or Blank if there
@@ -51,7 +91,23 @@ Piece Piezas::dropPiece(int column)
 **/
 Piece Piezas::pieceAt(int row, int column)
 {
-    return Blank;
+     if (column>=4 || column <0||row <0 || row>=3){
+         return Invalid; 
+    }
+    int realRow;
+    switch (row)
+    {
+    case 0:
+        realRow =2; 
+        break;
+    case 1:
+        realRow =1;
+        break;
+    default:
+        realRow = 0; 
+        break; 
+    }
+    return board[realRow][column]; 
 }
 
 /**

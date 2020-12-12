@@ -1,4 +1,6 @@
 #include "Piezas.h"
+#include <iostream>
+using namespace std; 
 #include <vector>
 /** CLASS Piezas
  * Class for representing a Piezas vertical board, which is roughly based
@@ -54,6 +56,7 @@ void Piezas::reset()
 **/ 
 Piece Piezas::dropPiece(int column)
 {
+
     if (column>=4 || column <0){
          if (turn == X){
          turn =O;
@@ -63,7 +66,7 @@ Piece Piezas::dropPiece(int column)
     }
         return Invalid; 
     }
-    for (int i =3; i<0; i--){
+    for (int i =2; i>=0; i--){
         if(board[i][column]==Blank) {
             board[i][column] = turn; 
             if (turn == X){
@@ -75,12 +78,7 @@ Piece Piezas::dropPiece(int column)
             return board[i][column];
         }// if 
     }// for 
-     if (turn == X){
-         turn =O;
-    }
-    else {
-         turn =X;
-    }
+    
     return Blank; 
 
 }// funtion 
@@ -121,5 +119,79 @@ Piece Piezas::pieceAt(int row, int column)
 **/
 Piece Piezas::gameState()
 {
-    return Blank;
+    for (int i =0; i<3; i++) {
+        for (int j =0; j<4;j++){
+            if (board[i][j] != Blank){
+        
+            }// if
+            else {
+                 return Invalid; 
+            }     
+        }// for j
+    }// for i
+
+    int XfinalCount =0; 
+    for (int i =0; i <3; i++) { 
+        int tempCount =0; 
+        for (int j=0; j<4;j++) {
+            if(board[i][j] ==X) {
+                tempCount++; 
+            }
+            else {
+                if(tempCount > XfinalCount) {
+                    XfinalCount = tempCount; 
+                } //if
+            } // else  
+        }// for i           
+    }// for X
+    int OfinalCount =0;
+   for (int i =0; i <3; i++) { 
+        int tempCount =0; 
+        for (int j=0; j<4;j++) {
+            if(board[i][j] ==O) {
+                tempCount++; 
+            }
+            else {
+                if(tempCount > OfinalCount) {
+                    OfinalCount = tempCount; 
+                } // if 
+            }    // else            
+        }// for i
+
+    } // for O
+    for (int i =0; i <4; i++) { 
+        int tempCount =0; 
+        for (int j=0; j<3;j++) {
+            if(board[j][i] ==X) {
+                tempCount++; 
+            }
+            else {
+                if(tempCount > XfinalCount) {
+                    XfinalCount = tempCount; 
+                } //if
+            } // else  
+        }// for i           
+    }// for X row 
+
+   for (int i =0; i <4; i++) { 
+        int tempCount =0; 
+        for (int j=0; j<3;j++) {
+            if(board[j][i] ==O) {
+                tempCount++; 
+            }
+            else {
+                if(tempCount > OfinalCount) {
+                    OfinalCount = tempCount; 
+                } // if 
+            }    // else            
+        }// for i
+
+    } // for O row
+    if (XfinalCount > OfinalCount) {
+        return X; 
+    }
+    else if (XfinalCount < OfinalCount) {
+        return O; 
+    }
+    return Blank; 
 }
